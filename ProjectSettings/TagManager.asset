@@ -11,6 +11,7 @@ TagManager:
   - BlueP
   - 2xPlatform
   - DefaultPlatform
+  - AciveZone
   layers:
   - Default
   - TransparentFX
