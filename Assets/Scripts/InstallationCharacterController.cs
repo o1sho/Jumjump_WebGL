@@ -8,6 +8,8 @@ public class InstallationCharacterController : MonoBehaviour
 
     private void Start()
     {
-        Instantiate(playersPrefab[PlayerPrefs.GetInt("idActiveCharacter")]);
+        //Instantiate(playersPrefab[PlayerPrefs.GetInt("idActiveCharacter")]);
+        // Yandex
+        Instantiate(playersPrefab[Database.Instance.characterActiveID]);
     }
 }

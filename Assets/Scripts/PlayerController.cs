@@ -75,11 +75,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) Jump();
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && !GameOver.isGameOver) Jump();
         _anim.SetFloat("velY", _rb.velocity.y);
 
         //input PC test
-        if (Input.GetKeyDown(KeyCode.Space)) Jump();
+        if (Input.GetKeyDown(KeyCode.Space) && !GameOver.isGameOver) Jump();
     }
 
     /* public void Down()

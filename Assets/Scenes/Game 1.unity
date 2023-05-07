@@ -707,6 +707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 384925218}
   - component: {fileID: 384925217}
+  - component: {fileID: 384925219}
   m_Layer: 0
   m_Name: Yandex
   m_TagString: Untagged
@@ -742,6 +743,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &384925219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384925216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53345c5e9d2821e47ac96d27706d601a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &389766560
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,6 +989,18 @@ MonoBehaviour:
       - m_Target: {fileID: 667091389}
         m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
         m_MethodName: BackMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 384925219}
+        m_TargetAssemblyTypeName: ProgresYandex, Assembly-CSharp
+        m_MethodName: Save
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1710,6 +1735,8 @@ MonoBehaviour:
   - {fileID: 3522677624676328962, guid: 61b8fd4415c40d54388cf28ff7f068a7, type: 3}
   - {fileID: 3522677624676328962, guid: 422be1f361172f64587ceae3ca48ae94, type: 3}
   - {fileID: 3522677624676328962, guid: d7633ad1d40fbf746b6430dc61fac5ca, type: 3}
+  - {fileID: 3522677624676328962, guid: 86f559b1394b47949b73e1472bb11423, type: 3}
+  - {fileID: 3522677624676328962, guid: c6f23c2a0859f8747992f9f7793e1397, type: 3}
 --- !u!1 &702583841
 GameObject:
   m_ObjectHideFlags: 0
@@ -4679,6 +4706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   continueButton: {fileID: 85824208}
   continuePriseCoins: 15
+  pY: {fileID: 384925219}
 --- !u!1 &1983838736
 GameObject:
   m_ObjectHideFlags: 0

@@ -41,13 +41,14 @@
           },
           onRewarded: () => {
             console.log('Rewarded!');
-            myGameInstance.SendMessage('Yandex', 'RewardAdvButton');
           },
           onClose: () => {
             console.log('Video ad closed.');
+            myGameInstance.SendMessage('Yandex', 'RewardAdvButton');
           }, 
           onError: (e) => {
             console.log('Error while open video ad:', e);
+            myGameInstance.SendMessage('Yandex', 'RewardAdvButton');
           }
         }
       })
@@ -59,6 +60,24 @@
         lb.setLeaderboardScore('leader', maxScore);
       });
     },
+
+
+
+    /*
+    SaveExtern: function(date){
+      var dateString = UTF8ToString(date);
+      var myobj = JSON.parse(dateString);
+      player.setData(myobj);
+    },
+
+    LoadExtern: function(){
+      player.getData().then(_date => {
+        const myJSON = JSON.stringify(_date);
+        myGameInstance.SendMessage('GameManager', 'SetPlayerInfo', myJSON);
+      });
+    }, 
+    */
+
 
 
   });

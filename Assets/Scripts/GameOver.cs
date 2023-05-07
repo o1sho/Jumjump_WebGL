@@ -7,6 +7,8 @@ public class GameOver : MonoBehaviour
     [SerializeField] public Button continueButton;
     [SerializeField] public int continuePriseCoins;
 
+    public static bool isGameOver;
+
     //ADV Yandex
     [DllImport("__Internal")]
     private static extern void ShowAdv();
@@ -14,22 +16,21 @@ public class GameOver : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void ShowRewardAdv();
 
+
     private void OnEnable()
     {
+        isGameOver= true;
+
         Time.timeScale = 0f;
         ShowAdv();
-        if (CoinsController.coins >= continuePriseCoins)
-        {
-            continueButton.interactable = true;
-        } else if (CoinsController.coins < continuePriseCoins) continueButton.interactable = false;
 
-        
+        Database.Instance.Save();
     }
 
     private void OnDisable()
     {
         Time.timeScale = 1f;
-
+        isGameOver = false;
     }
 
     public void RewardAdv()
@@ -37,8 +38,4 @@ public class GameOver : MonoBehaviour
         ShowRewardAdv();
     }
 
-    public void PickUpCoin()
-    {
-        CoinsController.coins -= continuePriseCoins;
-    }
 }

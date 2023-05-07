@@ -1,80 +1,115 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class SelectCharacterController : MonoBehaviour
 {
+    public static SelectCharacterController Instance;
+
     [Serializable]
     public struct Characters
     {
         public GameObject character;
+        public bool buyed;
+        public int price;
     }
     public Characters[] characters;
 
-    //private List<int> numberOfCharacters = new List<int>(); 
-    [SerializeField] public int idActiveCharacter;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+    }
 
     private void Start()
     {
-        //numberOfCharacters.Add(characters.Length);
-
         for (int i = 0; i < characters.Length; i++)
         {
-            if (i == PlayerPrefs.GetInt("idActiveCharacter"))
+            if (i == Database.Instance.characterActiveID)
             {
                 characters[i].character.SetActive(true);
-                idActiveCharacter = i;
             }
-            else characters[i].character.SetActive(false);
+
+            if (Database.Instance.characterBuyedID.Contains(i))
+            {
+                characters[i].buyed = true;
+                Debug.Log("Куплены персонажи: " + i);
+            }
+            else characters[i].buyed = false;
         }
-
-
-        // idActiveCharacter = PlayerPrefs.GetInt("idActiveCharacter");
-        Debug.Log("Выбран персонаж: " + PlayerPrefs.GetInt("idActiveCharacter"));
+        characters[0].buyed = true;
+        Debug.Log("Выбран персонаж: " + Database.Instance.characterActiveID);
         Debug.Log("Всего персонажей: " + characters.Length);
     }
 
     public void SelectRight()
     {
-        if (idActiveCharacter < characters.Length - 1)
+        if (Database.Instance.shortCharacterActiveID < characters.Length - 1)
         {
-            for (int i = 0; i < characters.Length; i++)
+            characters[Database.Instance.shortCharacterActiveID].character.SetActive(false);
+            Database.Instance.shortCharacterActiveID++;
+            characters[Database.Instance.shortCharacterActiveID].character.SetActive(true);
+            Debug.Log("Персонаж: " + Database.Instance.shortCharacterActiveID);
+            // Проверка на купленность
+            if (characters[Database.Instance.shortCharacterActiveID].buyed)
             {
-                if (i == idActiveCharacter)
-                {
-
-                }
+                Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
+                Database.Instance.Save();
+                Debug.Log("Выбран персонаж: " + Database.Instance.characterActiveID);
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(false);
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(false);
             }
-            characters[idActiveCharacter].character.SetActive(false);
-            idActiveCharacter++;
-            characters[idActiveCharacter].character.SetActive(true);
-            Debug.Log("pukpuk");
+            else
+            {
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(true);
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(true);
+            }
         }
     }
 
     public void SelectLeft()
     {
-        if (idActiveCharacter > 0)
+        if (Database.Instance.shortCharacterActiveID > 0)
         {
-            for (int i = 0; i < characters.Length; i++)
+            characters[Database.Instance.shortCharacterActiveID].character.SetActive(false);
+            Database.Instance.shortCharacterActiveID--;
+            characters[Database.Instance.shortCharacterActiveID].character.SetActive(true);
+            Debug.Log("Персонаж: " + Database.Instance.shortCharacterActiveID);
+            // Проверка на купленность
+            if (characters[Database.Instance.shortCharacterActiveID].buyed)
             {
-                if (i == idActiveCharacter)
-                {
-                    idActiveCharacter --;
-                    characters[i].character.SetActive(false);
-                    characters[idActiveCharacter].character.SetActive(true);
-                }
+                Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
+                Database.Instance.Save();
+                Debug.Log("Выбран персонаж: " + Database.Instance.characterActiveID);
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(false);
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(false);
+            }
+            else
+            {
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(true);
+                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(true);
             }
         }
     }
 
-    public void SaveIdActiveCharacter()
+    public void BuyNewCharacter()
     {
-        PlayerPrefs.SetInt("idActiveCharacter", idActiveCharacter);
-        Debug.Log("Выбран персонаж: " + PlayerPrefs.GetInt("idActiveCharacter"));
+        if (Database.Instance.coins >= characters[Database.Instance.shortCharacterActiveID].price && !characters[Database.Instance.shortCharacterActiveID].buyed)
+        {
+            characters[Database.Instance.shortCharacterActiveID].buyed = true;
+            Database.Instance.coins -= characters[Database.Instance.shortCharacterActiveID].price;
+            Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
+            Database.Instance.characterBuyedID.Add(Database.Instance.shortCharacterActiveID);
+            Database.Instance.Save();
+        }
     }
-
 
 
     private void Update()
@@ -87,6 +122,11 @@ public class SelectCharacterController : MonoBehaviour
             PlayerPrefs.SetInt("idActiveCharacter", 0);
         }*/
 
-        
+        if (characters[Database.Instance.shortCharacterActiveID].buyed)
+        {
+            Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
+            characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(false);
+            characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(false);
+        }    
     }
 }
