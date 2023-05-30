@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
 
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         _rb= GetComponent<Rigidbody2D>();
         _anim= GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -75,8 +79,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && !GameOver.isGameOver) Jump();
-        _anim.SetFloat("velY", _rb.velocity.y);
+        /*if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && !GameOver.isGameOver) Jump();
+        _anim.SetFloat("velY", _rb.velocity.y);*/
 
         //input PC test
         if (Input.GetKeyDown(KeyCode.Space) && !GameOver.isGameOver) Jump();
