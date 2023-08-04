@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
 
     //Actions
     public static Action saveMaxScore;
-    public static Action saveEarnedCoins;
     public static Action isGameOver;
 
     public static Action soundJump;
@@ -98,7 +97,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Landed");
             saveMaxScore?.Invoke();
-            saveEarnedCoins?.Invoke();
+
+            Database.instance.SaveGameData();
 
             // Play Anim
             for (int i = 0; i < _particlesLanded.Length; i++) 
@@ -113,7 +113,9 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Death")
         {
             saveMaxScore?.Invoke();
-            saveEarnedCoins?.Invoke();
+
+            Database.instance.SaveGameData();
+
             isGameOver?.Invoke();
             Debug.Log("Death");
 

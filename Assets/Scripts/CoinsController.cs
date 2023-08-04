@@ -9,29 +9,25 @@ public class CoinsController : MonoBehaviour
     private void OnEnable()
     {
         PlayerCheckOnCoin.coinAdd += AddCoin;
-        PlayerController.saveEarnedCoins += SaveEarnedCoins;
+
     }
 
     private void OnDisable()
     {
         PlayerCheckOnCoin.coinAdd -= AddCoin;
-        PlayerController.saveEarnedCoins -= SaveEarnedCoins;
+
     }
 
     private void Update()
     {
-        _coinsText.text = Database.Instance.coins.ToString();
+        _coinsText.text = Database.instance.GetCoins().ToString();
 
         //if (Input.GetKeyDown(KeyCode.C)) coins += 100;
     }
 
     public static void AddCoin()
     {
-        Database.Instance.coins++;
+        Database.instance.SetCoins(+1);
     }
 
-    public void SaveEarnedCoins()
-    {
-        Database.Instance.Save();
-    }
 }

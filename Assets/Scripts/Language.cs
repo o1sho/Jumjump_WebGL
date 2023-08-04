@@ -20,7 +20,9 @@ public class Language : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
 
+#if !UNITY_EDITOR && UNITY_WEBGL
             currentLanguage = GetLang();
+#endif
         }
         else
         {

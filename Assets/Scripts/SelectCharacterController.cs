@@ -32,12 +32,12 @@ public class SelectCharacterController : MonoBehaviour
     {
         for (int i = 0; i < characters.Length; i++)
         {
-            if (i == Database.Instance.characterActiveID)
+            if (i == Database.instance.GetCharacterActiveID())
             {
                 characters[i].character.SetActive(true);
             }
 
-            if (Database.Instance.characterBuyedID.Contains(i))
+            if (Database.instance.CheckCharacterBuyedID(i))
             {
                 characters[i].buyed = true;
                 Debug.Log("Куплены персонажи: " + i);
@@ -45,88 +45,97 @@ public class SelectCharacterController : MonoBehaviour
             else characters[i].buyed = false;
         }
         characters[0].buyed = true;
-        Debug.Log("Выбран персонаж: " + Database.Instance.characterActiveID);
+        Debug.Log("Выбран персонаж: " + Database.instance.GetCharacterActiveID());
         Debug.Log("Всего персонажей: " + characters.Length);
     }
 
     public void SelectRight()
     {
-        if (Database.Instance.shortCharacterActiveID < characters.Length - 1)
-        {
-            characters[Database.Instance.shortCharacterActiveID].character.SetActive(false);
-            Database.Instance.shortCharacterActiveID++;
-            characters[Database.Instance.shortCharacterActiveID].character.SetActive(true);
-            Debug.Log("Персонаж: " + Database.Instance.shortCharacterActiveID);
-            // Проверка на купленность
-            if (characters[Database.Instance.shortCharacterActiveID].buyed)
-            {
-                Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
-                Database.Instance.Save();
-                Debug.Log("Выбран персонаж: " + Database.Instance.characterActiveID);
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(false);
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(false);
-            }
-            else
-            {
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(true);
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(true);
-            }
-        }
+        SelectCharacter(+1);
     }
 
     public void SelectLeft()
     {
-        if (Database.Instance.shortCharacterActiveID > 0)
-        {
-            characters[Database.Instance.shortCharacterActiveID].character.SetActive(false);
-            Database.Instance.shortCharacterActiveID--;
-            characters[Database.Instance.shortCharacterActiveID].character.SetActive(true);
-            Debug.Log("Персонаж: " + Database.Instance.shortCharacterActiveID);
-            // Проверка на купленность
-            if (characters[Database.Instance.shortCharacterActiveID].buyed)
-            {
-                Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
-                Database.Instance.Save();
-                Debug.Log("Выбран персонаж: " + Database.Instance.characterActiveID);
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(false);
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(false);
-            }
-            else
-            {
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(true);
-                characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(true);
-            }
-        }
+        SelectCharacter(-1);
     }
 
     public void BuyNewCharacter()
     {
-        if (Database.Instance.coins >= characters[Database.Instance.shortCharacterActiveID].price && !characters[Database.Instance.shortCharacterActiveID].buyed)
+        if (Database.instance.GetCoins() >= characters[Database.instance.GetShortCharacterActiveID()].price && !characters[Database.instance.GetShortCharacterActiveID()].buyed)
         {
-            characters[Database.Instance.shortCharacterActiveID].buyed = true;
-            Database.Instance.coins -= characters[Database.Instance.shortCharacterActiveID].price;
-            Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
-            Database.Instance.characterBuyedID.Add(Database.Instance.shortCharacterActiveID);
-            Database.Instance.Save();
+            characters[Database.instance.GetShortCharacterActiveID()].buyed = true;
+            Database.instance.SetCoins(- characters[Database.instance.GetShortCharacterActiveID()].price);
+            Database.instance.SetCharacterActiveID(Database.instance.GetShortCharacterActiveID());
+            Database.instance.SetCharacterBuyedID(Database.instance.GetShortCharacterActiveID());
+            Database.instance.SaveGameData();
         }
     }
 
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.R))
+        if (characters[Database.instance.GetShortCharacterActiveID()].buyed)
         {
-            PlayerPrefs.SetString("PlayerBuyed0", "NotBuyed");
-            PlayerPrefs.SetString("PlayerBuyed1", "NotBuyed");
-            PlayerPrefs.SetString("PlayerBuyed" + idActiveCharacter, "NotBuyed");
-            PlayerPrefs.SetInt("idActiveCharacter", 0);
-        }*/
-
-        if (characters[Database.Instance.shortCharacterActiveID].buyed)
-        {
-            Database.Instance.characterActiveID = Database.Instance.shortCharacterActiveID;
-            characters[Database.Instance.shortCharacterActiveID].character.transform.Find("BuyPlayer").gameObject.SetActive(false);
-            characters[Database.Instance.shortCharacterActiveID].character.transform.Find("PriceInfo").gameObject.SetActive(false);
+            Database.instance.SetCharacterActiveID(Database.instance.GetShortCharacterActiveID());
+            ControlUIBuyInfo(false);
         }    
+    }
+
+    private void ControlUIBuyInfo(bool action)
+    {
+        characters[Database.instance.GetShortCharacterActiveID()].character.transform.Find("BuyPlayer").gameObject.SetActive(action);
+        characters[Database.instance.GetShortCharacterActiveID()].character.transform.Find("PriceInfo").gameObject.SetActive(action);
+    }
+
+    private void SelectCharacter(int side)
+    {
+        if (side == 1)
+        {
+            if (Database.instance.GetShortCharacterActiveID() < characters.Length - 1)
+            {
+                characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(false);
+                Database.instance.SetShortCharacterActiveID(side);
+                characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(true);
+                Debug.Log("Персонаж: " + Database.instance.GetShortCharacterActiveID());
+                // Проверка на купленность
+                if (characters[Database.instance.GetShortCharacterActiveID()].buyed)
+                {
+                    Database.instance.SetCharacterActiveID(Database.instance.GetShortCharacterActiveID());
+                    Database.instance.SaveGameData();
+                    Debug.Log("Выбран персонаж: " + Database.instance.GetCharacterActiveID());
+                    ControlUIBuyInfo(false);
+                }
+                else
+                {
+                    ControlUIBuyInfo(true);
+                }
+            }
+        }
+
+        if (side == -1)
+        {
+            if (Database.instance.GetShortCharacterActiveID() > 0)
+            {
+                characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(false);
+                Database.instance.SetShortCharacterActiveID(side);
+                characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(true);
+                Debug.Log("Персонаж: " + Database.instance.GetShortCharacterActiveID());
+                // Проверка на купленность
+                if (characters[Database.instance.GetShortCharacterActiveID()].buyed)
+                {
+                    Database.instance.SetCharacterActiveID(Database.instance.GetShortCharacterActiveID());
+                    Database.instance.SaveGameData();
+                    Debug.Log("Выбран персонаж: " + Database.instance.GetCharacterActiveID());
+                    ControlUIBuyInfo(false);
+                }
+                else
+                {
+                    ControlUIBuyInfo(true);
+                }
+            }
+        }
+
+
+        Debug.Log("Персонаж сменился");
     }
 }

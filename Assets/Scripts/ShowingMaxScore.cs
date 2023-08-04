@@ -10,6 +10,6 @@ public class ShowingMaxScore : MonoBehaviour
     }
     private void Start()
     {
-        _maxScoreText.text = Database.Instance.maxScore.ToString();
+        _maxScoreText.text = Database.instance.GetMaxScore().ToString();
     }
 }

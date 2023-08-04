@@ -34,8 +34,8 @@ public class ScoreController : MonoBehaviour
 
     private void Update()
     {
-        if (Database.Instance.maxScore < score) Database.Instance.maxScore = score;
-        _maxScoreText.text = Database.Instance.maxScore.ToString();
+        if (Database.instance.GetMaxScore() < score) Database.instance.SetMaxScore(score);
+        _maxScoreText.text = Database.instance.GetMaxScore().ToString();
         _scoreText.text = score.ToString();  
     }
 
@@ -51,7 +51,9 @@ public class ScoreController : MonoBehaviour
 
     public void SaveMaxScore()
     {
-        Database.Instance.Save();
-        LeaderBoard(Database.Instance.maxScore);
+        Database.instance.SaveGameData();
+#if !UNITY_EDITOR && UNITY_WEBGL
+        LeaderBoard(Database.instance.GetMaxScore());
+#endif
     }
 }

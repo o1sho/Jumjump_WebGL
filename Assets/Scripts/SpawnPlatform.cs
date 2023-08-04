@@ -69,11 +69,4 @@ public class SpawnPlatform : MonoBehaviour
         Instantiate(platformStartPrefab, new Vector3(0, (float)_lastPosY, 0), Quaternion.identity);
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.S))
-        {
-            Spawn();
-        };
-    }
 }

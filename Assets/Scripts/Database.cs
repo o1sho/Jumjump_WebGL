@@ -1,11 +1,12 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.InteropServices;
+using Unity.Jobs;
 using UnityEngine;
 
-[Serializable]
-public class PlayerInfo
+[System.Serializable]
+public class Data
 {
     public int coins;
     public int maxScore;
@@ -16,86 +17,133 @@ public class PlayerInfo
 
 public class Database : MonoBehaviour
 {
-    public PlayerInfo playerInfo;
-
-    public static Database Instance;
-
-    public int coins;
-    public int maxScore;
-    public int characterActiveID;
-    public int shortCharacterActiveID;
-    public List<int> characterBuyedID = new List<int>();
-
-    /*
     //Yandex Server Save
     [DllImport("__Internal")]
     private static extern void SaveExtern(string data);
 
     [DllImport("__Internal")]
     private static extern void LoadExtern();
-    */
+
+    public Data data;
+    private string saveKey;
+
+    public static Database instance;
+
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (instance == null)
         {
-            Destroy(this.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+
+#if UNITY_EDITOR
+            LoadGameData();
+#endif
+#if !UNITY_EDITOR && UNITY_WEBGL
+            LoadExtern();
+#endif
+
         }
         else
         {
-            Instance = this;
-            Load();
-            //LoadExtern(); // Yandex
+            Destroy(gameObject);
         }
     }
 
-    public void Save()
+    public void SaveGameData()
     {
-        /*
-        string jsonString = JsonUtility.ToJson(playerInfo);
-        SaveExtern(jsonString);
-        */
-
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath
-          + "/MySaveData.dat");
-        PlayerInfo data = new PlayerInfo();
-        data.coins = coins;
-        data.maxScore = maxScore;
-        data.characterActiveID = characterActiveID;
-        data.shortCharacterActiveID = shortCharacterActiveID;
-        data.characterBuyedID = characterBuyedID;
-        bf.Serialize(file, data);
-        file.Close();
-        Debug.Log("Game data saved!");
-
+        string jsonData = JsonUtility.ToJson(data);
+#if UNITY_EDITOR
+        PlayerPrefs.SetString(saveKey, jsonData);
+        PlayerPrefs.Save();
+#endif
+#if !UNITY_EDITOR && UNITY_WEBGL
+        SaveExtern(jsonData);
+#endif
     }
 
-    public void Load()
+    public void LoadGameData()
     {
-        if (File.Exists(Application.persistentDataPath + "/MySaveData.dat"))
+        if (PlayerPrefs.HasKey(saveKey))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/MySaveData.dat", FileMode.Open);
-            PlayerInfo data = (PlayerInfo)bf.Deserialize(file);
-            file.Close();
-            coins = data.coins;
-            maxScore = data.maxScore;
-            characterActiveID = data.characterActiveID;
-            shortCharacterActiveID = data.shortCharacterActiveID;
-            characterBuyedID = data.characterBuyedID;
-            Debug.Log("Game data loaded!");
+            string jsonData = PlayerPrefs.GetString(saveKey);
+            data = JsonUtility.FromJson<Data>(jsonData); // Используем Unity JSON десериализатор
+            Debug.Log("Data found, stored values loaded!");
         }
         else
-            Debug.LogError("There is no save data!");
+        {
+            // Если файл не существует, создать новый объект GameData или задать значения по умолчанию.
+            data = new Data();
+            Debug.Log("No data found, standard values loaded!");
+        }
     }
 
-    
-    /*
-    public void SetPlayerInfo(string value)
+    public void LoadGameDataYandex(string value)
     {
-        playerInfo = JsonUtility.FromJson<PlayerInfo>(value);
-        playerData.text = playerInfo.coins + " Coins\n" + playerInfo.maxScore + " MaxScore\n" + playerInfo.characterBuyedID + " BuyedCharacter\n";
+        data = JsonUtility.FromJson<Data>(value);
     }
-    */
+
+
+    //coins
+    public void SetCoins(int coins)
+    {
+        data.coins += coins;
+    }
+
+    public int GetCoins()
+    {
+        return data.coins;
+    }
+    //
+
+    //highScore
+    public void SetMaxScore(int score)
+    {
+        data.maxScore = score;
+    }
+
+    public int GetMaxScore()
+    {
+        return data.maxScore;
+    }
+    //
+
+    //characterActiveID
+    public void SetCharacterActiveID(int idCharacter)
+    {
+        data.characterActiveID = idCharacter;
+    }
+
+    public int GetCharacterActiveID()
+    {
+        return data.characterActiveID;
+    }
+    //
+
+    //shortCharacterActiveID
+    public void SetShortCharacterActiveID(int idCharacter)
+    {
+        data.shortCharacterActiveID += idCharacter;
+    }
+
+    public int GetShortCharacterActiveID()
+    {
+        return data.shortCharacterActiveID;
+    }
+    //
+
+    //characterBuyedID
+    public void SetCharacterBuyedID(int idCharacter)
+    {
+        data.characterBuyedID.Add(idCharacter);
+    }
+
+    public bool CheckCharacterBuyedID(int idCharacter)
+    {
+        return data.characterBuyedID.Contains(idCharacter);
+    }
+    //
+
+
 }

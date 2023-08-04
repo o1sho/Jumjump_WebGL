@@ -10,6 +10,8 @@ public class ShowYandexAdv : MonoBehaviour
     private static extern void ShowAdv();
     private void Start()
     {
-        ShowAdv();  
+#if!UNITY_EDITOR && UNITY_WEBGL
+        ShowAdv();
+#endif
     }
 }

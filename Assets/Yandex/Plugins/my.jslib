@@ -71,20 +71,19 @@
 
 
 
-    /*
-    SaveExtern: function(date){
-      var dateString = UTF8ToString(date);
-      var myobj = JSON.parse(dateString);
+    SaveExtern: function(data){
+      var dataString = UTF8ToString(data);
+      var myobj = JSON.parse(dataString);
       player.setData(myobj);
     },
 
     LoadExtern: function(){
-      player.getData().then(_date => {
-        const myJSON = JSON.stringify(_date);
-        myGameInstance.SendMessage('GameManager', 'SetPlayerInfo', myJSON);
+      YaGames.init();
+      player.getData().then(_data => {
+        const myJSON = JSON.stringify(_data);
+        myGameInstance.SendMessage('Database', 'LoadGameDataYandex', myJSON);
       });
     }, 
-    */
 
 
 
