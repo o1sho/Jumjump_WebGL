@@ -12,6 +12,8 @@ TagManager:
   - 2xPlatform
   - DefaultPlatform
   - AciveZone
+  - Coin
+  - Bag
   layers:
   - Default
   - TransparentFX

@@ -1,28 +1,36 @@
 using System;
+using System.Collections;
+using System.IO;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
+    public static ScoreController instance;
+
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _maxScoreText;
     public static int score;
 
+    [SerializeField] private GameObject _scoreTextInfo;
+    [SerializeField] private GameObject _scoreSuperTextInfo;
+
     [DllImport("__Internal")]
     private static extern void LeaderBoard(int maxScore);
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void OnEnable()
     {
-        PlayerCheckOnPlatform.scoreUp += ScoreUp;
-        PlayerCheckOnPlatform.scoreSuperUp += ScoreSuperUp;
         PlayerController.saveMaxScore += SaveMaxScore;
     }
 
     private void OnDisable()
     {
-        PlayerCheckOnPlatform.scoreUp -= ScoreUp;
-        PlayerCheckOnPlatform.scoreSuperUp -= ScoreSuperUp;
         PlayerController.saveMaxScore -= SaveMaxScore;
     }
 
@@ -30,6 +38,8 @@ public class ScoreController : MonoBehaviour
     {
         score = 0;
         _scoreText.text = "0";
+        _scoreTextInfo.SetActive(false);
+        _scoreSuperTextInfo.SetActive(false);
     }
 
     private void Update()
@@ -39,14 +49,16 @@ public class ScoreController : MonoBehaviour
         _scoreText.text = score.ToString();  
     }
 
-    public static void ScoreUp()
+    public void ScoreUp()
     {
         score++;
+        StartCoroutine(AppearanceScoreUpInfo());
     }
 
-    public static void ScoreSuperUp()
+    public void ScoreSuperUp()
     {
         score*=2;
+        StartCoroutine(AppearanceScoreSuperUpInfo());
     }
 
     public void SaveMaxScore()
@@ -55,5 +67,18 @@ public class ScoreController : MonoBehaviour
 #if !UNITY_EDITOR && UNITY_WEBGL
         LeaderBoard(Database.instance.GetMaxScore());
 #endif
+    }
+
+    private IEnumerator AppearanceScoreUpInfo()
+    {
+        _scoreTextInfo.SetActive(true);
+        yield return new WaitForSeconds(1);
+        _scoreTextInfo.SetActive(false);
+    }
+    private IEnumerator AppearanceScoreSuperUpInfo()
+    {
+        _scoreSuperTextInfo.SetActive(true);
+        yield return new WaitForSeconds(1);
+        _scoreSuperTextInfo.SetActive(false);
     }
 }

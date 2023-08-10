@@ -30,12 +30,17 @@ public class AudioController : MonoBehaviour
 
     private void Jump()
     {
+        float randomPitch = Random.Range(0.8f, 1.0f);
+        _soundJump.pitch = randomPitch;
         _soundJump.Play();
     }
 
     private void Fall()
     {
+        float randomPitch = Random.Range(0.9f, 1.1f);
+        _soundFall.pitch= randomPitch;
         _soundFall.Play();
+
     }
 
     private void Death()

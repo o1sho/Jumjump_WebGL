@@ -60,7 +60,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.473911}
+  m_Offset: {x: 0.019161433, y: -0.473911}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -71,7 +71,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.39022654, y: 0.06084013}
+  m_Size: {x: 0.5388891, y: 0.06084013}
   m_EdgeRadius: 0
 --- !u!1 &3522677624362099369
 GameObject:
@@ -5031,7 +5031,7 @@ GameObject:
   - component: {fileID: 3522677624676328988}
   - component: {fileID: 5185485732708628068}
   m_Layer: 0
-  m_Name: Player(Amogus)
+  m_Name: Player(Cat)
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5045,7 +5045,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3522677624676328962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.069, y: 0.056, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5097,12 +5097,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 249d026af7ab9564b872f46bafd4163c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b148f2b2b37ebe84e825a1274098cb22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -5121,18 +5121,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0002553761, y: -0.11570376}
+  m_Offset: {x: 0.01974509, y: -0.113182425}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38489813, y: 0.72922814}
+  m_Size: {x: 0.53523874, y: 0.72418547}
   m_EdgeRadius: 0
 --- !u!50 &3522677624676328985
 Rigidbody2D:
@@ -5181,7 +5181,7 @@ Animator:
   m_GameObject: {fileID: 3522677624676328962}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ef47b81cf8dfb304895e71202e67eee0, type: 2}
+  m_Controller: {fileID: 9100000, guid: d2fbdc91980030d428288533288b116a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5381,7 +5381,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.49996948
+        value: 0.70259005
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5393,8 +5393,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.75294125, g: 0.09411766, b: 0.039215688, a: 0.34901962}
-      key1: {r: 0.75294125, g: 0.09411766, b: 0.039215688, a: 0.3647059}
+      key0: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0.50980395}
+      key1: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 0.50980395}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

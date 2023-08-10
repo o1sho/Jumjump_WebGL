@@ -122,9 +122,14 @@ public class Database : MonoBehaviour
     //
 
     //shortCharacterActiveID
+    public void ChangeShortCharacterActiveID(int side)
+    {
+        data.shortCharacterActiveID += side;
+    }
+
     public void SetShortCharacterActiveID(int idCharacter)
     {
-        data.shortCharacterActiveID += idCharacter;
+        data.shortCharacterActiveID = idCharacter;
     }
 
     public int GetShortCharacterActiveID()

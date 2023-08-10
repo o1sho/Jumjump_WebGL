@@ -6,17 +6,7 @@ public class CoinsController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _coinsText;
 
-    private void OnEnable()
-    {
-        PlayerCheckOnCoin.coinAdd += AddCoin;
 
-    }
-
-    private void OnDisable()
-    {
-        PlayerCheckOnCoin.coinAdd -= AddCoin;
-
-    }
 
     private void Update()
     {
@@ -25,9 +15,9 @@ public class CoinsController : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.C)) coins += 100;
     }
 
-    public static void AddCoin()
+    public static void AddCoin(int count)
     {
-        Database.instance.SetCoins(+1);
+        Database.instance.SetCoins(count);
     }
 
 }

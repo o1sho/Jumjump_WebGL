@@ -28,13 +28,22 @@ public class SelectCharacterController : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        Database.instance.SetShortCharacterActiveID(Database.instance.GetCharacterActiveID());
+    }
+
     private void Start()
     {
+        if (!Database.instance.CheckCharacterBuyedID(0)) Database.instance.SetCharacterBuyedID(0);
+        
+
         for (int i = 0; i < characters.Length; i++)
         {
             if (i == Database.instance.GetCharacterActiveID())
             {
                 characters[i].character.SetActive(true);
+                Database.instance.SetShortCharacterActiveID(i);
             }
 
             if (Database.instance.CheckCharacterBuyedID(i))
@@ -94,7 +103,7 @@ public class SelectCharacterController : MonoBehaviour
             if (Database.instance.GetShortCharacterActiveID() < characters.Length - 1)
             {
                 characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(false);
-                Database.instance.SetShortCharacterActiveID(side);
+                Database.instance.ChangeShortCharacterActiveID(side);
                 characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(true);
                 Debug.Log("Персонаж: " + Database.instance.GetShortCharacterActiveID());
                 // Проверка на купленность
@@ -117,7 +126,7 @@ public class SelectCharacterController : MonoBehaviour
             if (Database.instance.GetShortCharacterActiveID() > 0)
             {
                 characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(false);
-                Database.instance.SetShortCharacterActiveID(side);
+                Database.instance.ChangeShortCharacterActiveID(side);
                 characters[Database.instance.GetShortCharacterActiveID()].character.SetActive(true);
                 Debug.Log("Персонаж: " + Database.instance.GetShortCharacterActiveID());
                 // Проверка на купленность
