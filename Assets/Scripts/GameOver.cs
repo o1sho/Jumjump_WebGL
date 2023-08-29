@@ -22,9 +22,11 @@ public class GameOver : MonoBehaviour
         isGameOver= true;
 
         Time.timeScale = 0f;
+        /*
 #if !UNITY_EDITOR && UNITY_WEBGL
         ShowAdv();
 #endif
+        */
         Database.instance.SaveGameData();
     }
 

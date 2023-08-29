@@ -8,10 +8,15 @@ public class ShowYandexAdv : MonoBehaviour
     //ADV Yandex
     [DllImport("__Internal")]
     private static extern void ShowAdv();
-    private void Start()
+
+    private void Awake()
     {
-#if!UNITY_EDITOR && UNITY_WEBGL
+#if !UNITY_EDITOR && UNITY_WEBGL
         ShowAdv();
 #endif
+    }
+    private void Start()
+    {
+
     }
 }
