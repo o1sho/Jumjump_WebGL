@@ -11,18 +11,18 @@ public class InternationalText : MonoBehaviour
 
     private void Start()
     {
-        switch (Language.instance.currentLanguage)
+        switch ("en")
         {
-            case "ru": 
-                GetComponent<TextMeshProUGUI>().text = _ru;
-                break;
+            //case "ru": 
+            //    GetComponent<TextMeshProUGUI>().text = _ru;
+            //    break;
             case "en":
                 GetComponent<TextMeshProUGUI>().text = _en;
                 break;
-            case "tr":
-                GetComponent<TextMeshProUGUI>().text = _tr;
-                break;
-                default: break;
+            //case "tr":
+            //    GetComponent<TextMeshProUGUI>().text = _tr;
+            //    break;
+            //    default: break;
         }
     }
 }

@@ -16,8 +16,6 @@ public class ScoreController : MonoBehaviour
     [SerializeField] private GameObject _scoreTextInfo;
     [SerializeField] private GameObject _scoreSuperTextInfo;
 
-    [DllImport("__Internal")]
-    private static extern void LeaderBoard(int maxScore);
 
     private void Awake()
     {
@@ -64,9 +62,6 @@ public class ScoreController : MonoBehaviour
     public void SaveMaxScore()
     {
         Database.instance.SaveGameData();
-#if !UNITY_EDITOR && UNITY_WEBGL
-        LeaderBoard(Database.instance.GetMaxScore());
-#endif
     }
 
     private IEnumerator AppearanceScoreUpInfo()

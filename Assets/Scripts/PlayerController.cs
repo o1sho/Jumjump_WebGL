@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetDefaultPos()
     {
-        _rb.velocity = new Vector3(0, 0, 0);
+        _rb.linearVelocity = new Vector3(0, 0, 0);
         gameObject.transform.position += new Vector3(0,3,0);
 
     }
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         /*if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && !GameOver.isGameOver) Jump();*/
-        _anim.SetFloat("velY", _rb.velocity.y);
+        _anim.SetFloat("velY", _rb.linearVelocity.y);
 
         //input PC test
         if (Input.GetKeyDown(KeyCode.Space) && !GameOver.isGameOver) Jump();

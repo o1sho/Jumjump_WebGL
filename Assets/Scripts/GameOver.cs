@@ -9,12 +9,6 @@ public class GameOver : MonoBehaviour
 
     public static bool isGameOver;
 
-    //ADV Yandex
-    [DllImport("__Internal")]
-    private static extern void ShowAdv();
-
-    [DllImport("__Internal")]
-    private static extern void ShowRewardAdv();
 
 
     private void OnEnable()
@@ -22,11 +16,7 @@ public class GameOver : MonoBehaviour
         isGameOver= true;
 
         Time.timeScale = 0f;
-        /*
-#if !UNITY_EDITOR && UNITY_WEBGL
-        ShowAdv();
-#endif
-        */
+
         Database.instance.SaveGameData();
     }
 
@@ -34,11 +24,6 @@ public class GameOver : MonoBehaviour
     {
         Time.timeScale = 1f;
         isGameOver = false;
-    }
-
-    public void RewardAdv()
-    {
-        ShowRewardAdv();
     }
 
 }
